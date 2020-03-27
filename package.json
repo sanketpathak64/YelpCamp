@@ -1,0 +1,25 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "It a web portal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanketpathak64/YelpCamp.git"
+  },
+  "author": "sanketpathak64",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanketpathak64/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/sanketpathak64/YelpCamp#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "ejs-lint": "^1.0.1",
+    "express": "^4.17.1"
+  }
+}
