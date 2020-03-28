@@ -18,7 +18,7 @@ app.get('/',function(req,res){
 
 app.get("/campgrounds", function(req,res){
     
-
+    //v1
     res.render("campgrounds",{campgrounds});
 });
 
