@@ -14,12 +14,16 @@
         <div class="card-deck" style="display:flex; flex-wrap:wrap;">
                 <% campgrounds.forEach(function(campground){ %>
                     <div class="col-md-6 col-sm-12 col-lg-4 card-body">
-                        <div class="card">
-                                <img src= "<%= campground.image %>">
+                        <div class="card" >
+                                <img style="height:auto; width: 100%;" src= "<%= campground.image %>">
                         </div>
                         <div class="card-title text-center">
                             <h4><%= campground.name %></h4>
+                            <p>
+                                    <a style="text-align: center;" href="/campgrounds/<%= campground._id%>" class="btn btn-primary">More Info</a>
+                            </p>
                         </div>
+                        
                     </div>
                 <%});%>    
         </div>
