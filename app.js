@@ -8,7 +8,7 @@ var Campground = require("./models/campgrounds");
 var seedDB = require('./seeds');
 seedDB();
 
-mongoose.connect("mongodb://localhost:27017/yelp_camp",{useNewUrlParser:true,useUnifiedTopology: true});
+mongoose.connect("mongodb://localhost:27017/yelp_camp_v3",{useNewUrlParser:true,useUnifiedTopology: true});
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
@@ -73,7 +73,7 @@ app.get("/campgrounds/new",function(req,res){
 
 //show info about 1 campground
 app.get("/campgrounds/:id",function(req,res){
-    Campground.findById(req.params.id,function(err,foundCampground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err,foundCampground){
         if(err)
         {
             console.log(err);
