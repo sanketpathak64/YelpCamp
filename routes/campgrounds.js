@@ -28,13 +28,14 @@ router.post("/",isLoggedIn, (req, res) => {
     // getting data from the form and adding to campgrounds array
     var name = req.body.name;
     var image = req.body.image;
+    var price = req.body.price;
     var description = req.body.description;
     var author={
         id: req.user._id,
         username:req.user.username
 
     };
-    var newCamp = {name: name, image: image, description: description, author:author}
+    var newCamp = {name: name, image: image,price: price, description: description, author:author}
     
     // create new campground and save to database
     Campground.create(newCamp, (err, newlyCreated) => {
