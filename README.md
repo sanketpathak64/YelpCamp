@@ -35,10 +35,10 @@ Once you have Node.js and MongoDB installed on your computer,
   modern applications
 - [Mongoose](https://mongoosejs.com/) - Elegant MongoDB object modeling for Node.js
 - [ejs](https://ejs.co/) - Embedded JavaScript templating
-
+<!-- 
 ## Contributing
 
-Please read [CONTRIBUTING.md](contributing.MD) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](contributing.MD) for details on our code of conduct, and the process for submitting pull requests to us. -->
 
 <!-- ## Authors
 
