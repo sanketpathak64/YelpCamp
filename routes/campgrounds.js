@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 
 
 // CREATE route - add to campground to database
-router.post("/", (req, res) => {
+router.post("/",isLoggedIn, (req, res) => {
     // getting data from the form and adding to campgrounds array
     var name = req.body.name;
     var image = req.body.image;
@@ -41,7 +41,7 @@ router.post("/", (req, res) => {
 
 
 // NEW route - show form to create new campground
-router.get("/new", (req, res) => { // campgrounds/new will then send the data to the post route
+router.get("/new",isLoggedIn, (req, res) => { // campgrounds/new will then send the data to the post route
     res.render("campgrounds/new.ejs");
 });
 
@@ -59,6 +59,16 @@ router.get("/:id", (req, res) => {
         }
     });
 });
+
+
+//middleware
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    // else
+    res.redirect("/login");
+}
 
 
 module.exports = router;
