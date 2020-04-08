@@ -50,6 +50,47 @@ router.post("/", isLoggedIn, (req, res) => {
 });
 
 
+// EDIT comment route
+router.get("/:comment_id/edit",checkCommentOwnership, (req, res) => {
+    Comment.findById(req.params.comment_id, (err, foundComment) => {
+        if(err) {
+            res.redirect("back");
+        }
+        else {
+            res.render("comments/edit.ejs", {campground_id: req.params.id, comment: foundComment});
+        }
+    });
+ 
+});
+
+
+// UPDATE comment route
+router.put("/:comment_id", checkCommentOwnership, (req, res) => {
+    // find and update correct comment
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => { // req.params.comment_id - 1st parameter is the defined comment id, req.body.comment - 2nd parameter is new data
+        if(err) {
+            res.redirect("back");
+        }
+        else {
+            res.redirect("/campgrounds/" + req.params.id); // redirects to the right show page with specified id
+        }
+    });
+});
+
+// DESTROY comment route
+router.delete("/:comment_id", checkCommentOwnership, (req, res) => {
+    // deletes a comment
+    Comment.findByIdAndRemove(req.params.comment_id, (err) => {
+        if(err) {
+            res.redirect("back");
+        }
+        else {
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    });
+ });
+ 
+
 //middleware
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) {
@@ -57,6 +98,28 @@ function isLoggedIn(req, res, next) {
     }
     // else
     res.redirect("/login");
+}
+
+function checkCommentOwnership(req, res, next) {
+    if(req.isAuthenticated()) { // checks if user is logged in
+        Comment.findById(req.params.comment_id, (err, foundComment) => {
+            if(err) {
+                res.redirect("back");
+            }
+            else {
+                // checks if user owns the comment
+                if(foundComment.author.id.equals(req.user.id)) { // foundComment.author.id - mongoose object, req.user.id - string, .equals - mongoose function which compares object and string
+                    next(); // the code that comes from route handler i.e. callback function
+                }  
+                else {
+                    res.redirect("back");
+                }
+            }
+        });
+    }
+    else {
+        res.redirect("back"); // takes user back from where they came
+    }
 }
 
 

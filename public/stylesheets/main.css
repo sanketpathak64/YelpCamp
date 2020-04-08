@@ -5,3 +5,6 @@
 .thumbnail .caption_full {
     padding: 10px;
 }
+#del {
+    display: inline;
+}

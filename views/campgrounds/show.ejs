@@ -20,6 +20,12 @@
                     <h3><a><%= campground.name %></a></h3>
                     <p><%= campground.description %></p>
                     <em><p>submitted by   </em><%= campground.author.username%></p>
+                    <%if(currentUser && campground.author.id.equals(currentUser._id)) {%>
+                        <a class="btn btn-warning" href="/campgrounds/<%=campground._id%>/edit">Edit</a>
+                        <form id="del" action="/campgrounds/<%=campground._id%>?method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                    <%}%>
                 </div>
             </div>
             
@@ -38,6 +44,12 @@
                             <p>
                                 <%= comment.text %>
                             </p>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)) { %> <!-- checks if user is logged in and he/she owns the comment -->
+                                <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                                <form id="del"  action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-xs btn-danger">Delete</button>
+                                </form>
+                            <% } %>
                         </div>
                     </div>
                 <% }); %>

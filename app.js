@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const localStrategy = require("passport-local");
+const methodOverride = require('method-override');
 
 
 // Importing files
@@ -20,6 +21,7 @@ var commentRoutes = require("./routes/comments.js");
 mongoose.connect("mongodb://localhost/yelp_camp_v8", { useNewUrlParser: true }); // connected to yelp_camp_v7 database
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public")); // __dirname - directory where script was run
+app.use(methodOverride("_method"));
 // seedDB(); seed db
 
 
@@ -53,6 +55,12 @@ app.use((req, res, next) => {
 app.use("/", authRoutes);
 app.use("/campgrounds", campgroundRoutes); // adds /campgrounds as a prefix to every route in campgrounds.js
 app.use("/campgrounds/:id/comments", commentRoutes);
+
+//edit camp
+
+
+//update camp
+
 
 
 app.listen(3000, function(){ // process.env.PORT, process.env.IP  - environmental viriables set up for cloud9 which we access

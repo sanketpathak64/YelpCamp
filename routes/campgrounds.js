@@ -20,6 +20,9 @@ router.get("/", (req, res) => {
 });
 
 
+
+
+
 // CREATE route - add to campground to database
 router.post("/",isLoggedIn, (req, res) => {
     // getting data from the form and adding to campgrounds array
@@ -65,6 +68,41 @@ router.get("/:id", (req, res) => {
         }
     });
 });
+// EDIT route
+router.get("/:id/edit", checkCampgroundOwnership, (req, res) => {
+    Campground.findById(req.params.id, (err, foundCampground) => {
+        res.render("campgrounds/edit.ejs", {campground: foundCampground});
+    });
+});
+
+
+// UPDATE route
+router.put("/:id", checkCampgroundOwnership, (req, res) => {
+    // find and update correct campground
+    Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => { // req.params.id - 1st parameter is the defined id, req.body.campground - 2nd parameter is new data
+        if(err) {
+            res.redirect("/campgrounds");
+        }
+        else {
+            res.redirect("/campgrounds/" + req.params.id); // redirects to the right show page with specified id
+        }
+    });
+});
+
+
+// DESTROY route
+router.delete("/:id", checkCampgroundOwnership, (req, res) => {
+    // deletes a campground
+    Campground.findByIdAndRemove(req.params.id, (err) => {
+        if(err) {
+            res.redirect("/campgrounds");
+        }
+        else {
+            res.redirect("/campgrounds");
+        }
+    });
+});
+
 
 
 //middleware
@@ -74,6 +112,29 @@ function isLoggedIn(req, res, next) {
     }
     // else
     res.redirect("/login");
+}
+
+
+function checkCampgroundOwnership (req, res, next)  {
+    if(req.isAuthenticated()) { // checks if user is logged in
+        Campground.findById(req.params.id, (err, foundCampground) => {
+            if(err) {
+                res.redirect("back");
+            }
+            else {
+                // checks if user owns the campground
+                if(foundCampground.author.id.equals(req.user.id)) { // foundCampground.author.id - mongoose object, req.user.id - string, .equals - mongoose function which compares object and string
+                    next(); // the code that comes from route handler i.e. callback function
+                }  
+                else {
+                    res.redirect("back");
+                }
+            }
+        });
+    }
+    else {
+        res.redirect("back"); // takes user back from where they came
+    }
 }
 
 
